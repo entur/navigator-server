@@ -9,5 +9,7 @@ RUN npm install -g grunt-cli
 ADD package.json ${DIR_PATH}/package.json
 RUN npm install
 ADD . ${DIR_PATH}
+EXPOSE 8080
+RUN chmod -R a+rwX /opt/navigatorserver
 
 CMD grunt server --port ${PORT} --stack
