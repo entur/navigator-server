@@ -111,6 +111,7 @@ helsinki_poll = require './helsinki-poll.js'
 helmi = require './helmi.js'
 vr_poll = require './vr_poll.js'
 hsl_lij = require './hsl_lij.js'
+rutebanken = require './rutebanken.js'
 
 # Create new real-time data converters, hel_client and man_client, and pass handle_event
 # function for them that is used for publishing real-time public transport data to the
@@ -121,13 +122,15 @@ hsl_lij = require './hsl_lij.js'
 #hel_client.connect()
 #man_client = new manchester.TfGMClient handle_event
 #man_client.connect()
-tre_client = new tampere.SiriJSONClient handle_event
-tre_client.connect()
+#tre_client = new tampere.SiriJSONClient handle_event
+#tre_client.connect()
 #hsl_poll_client = new helsinki_poll.HSLPollClient handle_event
 #hsl_poll_client.connect()
 #helmi_client = new helmi.HelmiClient handle_event
 #helmi_client.connect()
 #vr_poll_client = new vr_poll.VRPollClient handle_event
 #vr_poll_client.connect()
-hsl_lij_client = new hsl_lij.LIJClient handle_event
-hsl_lij_client.connect()
+#hsl_lij_client = new hsl_lij.LIJClient handle_event
+#hsl_lij_client.connect()
+rutebanken_client = new rutebanken.LIJClient handle_event
+rutebanken_client.connect()
