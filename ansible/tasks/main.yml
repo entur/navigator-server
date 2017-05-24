@@ -1,0 +1,35 @@
+---
+- set_fact: docker_build_root="/usr/src"
+- set_fact: navigator_docker_image="eu.gcr.io/carbon-1287/navigator"
+- set_fact: navigator_root="{{docker_build_root}}/navigator"
+- set_fact: build_log_directory="/usr/src/log"
+- set_fact: logfile="{{build_log_directory}}/navigator-server.log"
+- set_fact: build_home="/usr/src/jenkinsbuild/workspace/navigator-server"
+# - set_fact: build_home="/home/en/git/rutebanken/navigator-server"
+# ansible-playbook --skip-tags=push -c local ansible/navigator_build.yml
+
+- name: Make log directory structure
+  file: path={{build_log_directory}} state=directory mode=0755 group=users
+
+- name: Make navigator target directory structure
+  file: path={{navigator_root}}/ state=directory mode=0755 group=users
+
+- name: Get the hash of the git repo
+  shell: git log -n 1 --pretty=format:"%H" > {{navigator_root}}/git_navigator_hash.txt
+  args:
+    chdir: "{{ build_home }}"
+
+- name: Move Dockerfile
+  template: src=Dockerfile.j2 dest={{navigator_root}}/Dockerfile mode=0755
+
+- name: Copy package.json
+  copy: src={{ build_home|quote }}/package.json dest={{navigator_root}}/package.json mode=0755
+
+- name: build the docker image
+  shell: docker build --quiet=true --tag={{ navigator_docker_image|quote }} --force-rm=true {{navigator_root}} > {{logfile}} 2>&1
+  register: image
+
+- name: Push docker image if built (which it normally will be in jenkins)
+  tags: push
+  when: image.changed
+  shell: docker push {{ navigator_docker_image|quote }}
