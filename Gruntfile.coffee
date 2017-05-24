@@ -30,6 +30,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'start-server', 'Start the server', ->
     bayeux = require './lib/server.js'
+    bayeux.setMQTT grunt.option('MQTT')
     bayeux.listen grunt.option('port') || 9002
 
   grunt.registerTask 'default', ['coffee', 'copy']

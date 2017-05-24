@@ -133,4 +133,5 @@ rutebanken = require './rutebanken.js'
 #hsl_lij_client = new hsl_lij.LIJClient handle_event
 #hsl_lij_client.connect()
 rutebanken_client = new rutebanken.LIJClient handle_event
-rutebanken_client.connect()
+module.exports.setMQTT = (MQTT) ->
+  rutebanken_client.connect(MQTT)

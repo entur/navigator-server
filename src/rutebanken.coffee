@@ -7,10 +7,10 @@ mqtt = require 'mqtt'
 class LIJClient
     constructor: (@callback, @args) ->
 
-    connect: =>
-        @client = mqtt.connect 'wss://api-test.rutebanken.org/mqtt/'
+    connect: (MQTT) =>
+        @client = mqtt.connect MQTT
         @client.on 'connect', =>
-            console.log 'Rutebanken Client connected'
+            console.log 'Rutebanken Client connected to: ' + MQTT
             @client.subscribe('/hfp/journey/#')
         @client.on 'message', (topic, message) =>
             @handle_message(topic, message)
