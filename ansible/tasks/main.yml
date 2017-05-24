@@ -14,6 +14,9 @@
 - name: Make navigator target directory structure
   file: path={{navigator_root}}/ state=directory mode=0755 group=users
 
+- name: Remove old files
+  file: path={{navigator_root}}/source state=absent
+
 - name: Get the hash of the git repo
   shell: git log -n 1 --pretty=format:"%H" > {{navigator_root}}/git_navigator_hash.txt
   args:
@@ -22,8 +25,8 @@
 - name: Move Dockerfile
   template: src=Dockerfile.j2 dest={{navigator_root}}/Dockerfile mode=0755
 
-- name: Copy package.json
-  copy: src={{ build_home|quote }}/package.json dest={{navigator_root}}/package.json mode=0755
+- name: Copy source files
+  copy: src={{ build_home|quote }}/ dest={{navigator_root}}/source mode=0755
 
 - name: build the docker image
   shell: docker build --quiet=true --tag={{ navigator_docker_image|quote }} --force-rm=true {{navigator_root}} > {{logfile}} 2>&1
