@@ -4,7 +4,7 @@
 - set_fact: navigator_root="{{docker_build_root}}/navigator"
 - set_fact: build_log_directory="/usr/src/log"
 - set_fact: logfile="{{build_log_directory}}/navigator-server.log"
-- set_fact: build_home="/usr/src/jenkinsbuild/workspace/navigator-server"
+- set_fact: build_home="/usr/src/jenkinsbuild/workspace/navigator"
 # - set_fact: build_home="/home/en/git/rutebanken/navigator-server"
 # ansible-playbook --skip-tags=push -c local ansible/navigator_build.yml
 
