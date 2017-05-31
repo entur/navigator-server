@@ -31,19 +31,8 @@ to_mqtt_topic = (msg) ->
     digits = (digit(x, i) + digit(y, i) for i in [1..3])
     geohash = Math.floor(x) + ";" + Math.floor(y) + "/" + digits.join '/'
 
-    route = msg.trip.route
-    if route.match /^1300/
-        mode = "subway"
-    else if route.match /^300/
-        mode = "rail"
-    else if route.match /^10(0|10)/
-        mode = "tram"
-    else if route.match /^1019/
-        mode = "ferry"
-    else
-        mode = "bus"
-
-    headsign = "XXX" # not available from current sources
+    mode = msg.vehicle.mode
+    headsign = msg.trip.headsign
 
     return "/hfp/journey/#{mode}/#{msg.vehicle.id}/#{msg.trip.route}/#{msg.trip.direction}/#{headsign}/#{msg.trip.start_time}/#{msg.position.next_stop}/"+geohash
 
@@ -70,9 +59,9 @@ to_mqtt_payload = (msg) ->
         oday = undefined
 
     VP:
-        desi: interpret_jore(msg.trip.route)[2]
+        desi: msg.trip.designation
         dir: msg.trip.direction
-        oper: "XXX" # we don't have operator id yet
+        oper: msg.trip.operator
         veh: msg.vehicle.id
         tst: moment(msg.timestamp*1000).toISOString()
         tsi: Math.floor(msg.timestamp)
@@ -83,8 +72,8 @@ to_mqtt_payload = (msg) ->
         dl: msg.position.delay
         odo: msg.position.odometer
         oday: msg.trip.start_day or oday?.format("YYYY-MM-DD")
-        jrn: "XXX"  # we don't have departure id yet
-        line: "XXX" # we don't have stop pattern id yet
+        jrn: msg.trip.journey
+        line: msg.vehicle.line
         start: msg.trip.start_time
         stop_index: msg.position.next_stop_index
         source: msg.source

@@ -31,12 +31,16 @@ class LIJClient
             vehicle:
                 id: vehi
                 mode: mode
-            trip:
-                route: line
                 operator: info.oper
+                line: info.line
+            trip:
+                designation: info.desi
+                headsign: headsign
+                route: line
                 direction: dir
                 start_time: start_time
                 start_date: info.oday
+                journey: info.jrn
             position:
                 latitude: info.lat
                 longitude: info.long
