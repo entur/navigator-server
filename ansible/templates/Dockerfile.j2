@@ -14,7 +14,7 @@ ENV PORT=9002
 WORKDIR ${DIR_PATH}
 RUN mkdir -p ${DIR_PATH} \
  && npm install grunt-cli
-ADD package.json ${DIR_PATH}/package.json
+ADD source/package.json ${DIR_PATH}/package.json
 RUN npm install
 ADD source ${DIR_PATH}
 
