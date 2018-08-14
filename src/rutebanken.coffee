@@ -9,6 +9,7 @@ class LIJClient
 
     connect: (MQTT) =>
         @client = mqtt.connect MQTT
+        console.log 'Rutebanken Client connecting to: ' + MQTT
         @client.on 'connect', =>
             console.log 'Rutebanken Client connected to: ' + MQTT
             @client.subscribe('/hfp/journey/#')
@@ -16,7 +17,7 @@ class LIJClient
             @handle_message(topic, message)
 
     handle_message: (topic, message) =>
-        [_, _, _, mode, vehi, line, dir, headsign, start_time, next_stop, geohash...] = topic.split '/'
+        [_, _, _, mode, vehi, line, trip_id, dir, headsign, start_time, next_stop, geohash...] = topic.split '/'
 
         info = JSON.parse(message).VP
 
@@ -34,9 +35,11 @@ class LIJClient
                 operator: info.oper
                 line: info.line
             trip:
+                id: trip_id
                 designation: info.desi
                 headsign: headsign
                 route: line
+                oper: info.oper
                 direction: dir
                 start_time: start_time
                 start_date: info.oday

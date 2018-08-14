@@ -61,22 +61,24 @@ to_mqtt_payload = (msg) ->
     VP:
         desi: msg.trip.designation
         dir: msg.trip.direction
-        oper: msg.trip.operator
-        veh: msg.vehicle.id
-        tst: moment(msg.timestamp*1000).toISOString()
-        tsi: Math.floor(msg.timestamp)
-        spd: Math.round(msg.position.speed*100)/100
-        hdg: msg.position.bearing
-        lat: msg.position.latitude
-        long: msg.position.longitude
         dl: msg.position.delay
-        odo: msg.position.odometer
-        oday: msg.trip.start_day or oday?.format("YYYY-MM-DD")
         jrn: msg.trip.journey
+        lat: msg.position.latitude
         line: msg.vehicle.line
+        long: msg.position.longitude
+        oday: msg.trip.start_date or oday?.format("YYYY-MM-DD")
+        oper: msg.trip.oper
+        source: msg.source
         start: msg.trip.start_time
         stop_index: msg.position.next_stop_index
-        source: msg.source
+        trip_id: msg.trip.id
+        tsi: Math.floor(msg.timestamp)
+        tst: moment(msg.timestamp*1000).toISOString()
+        spd: Math.round(msg.position.speed*100)/100
+        hdg: msg.position.bearing
+        odo: msg.position.odometer
+        veh: msg.vehicle.id
+        mode: msg.vehicle.mode
 
 
 module.exports =
