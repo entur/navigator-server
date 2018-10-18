@@ -5,16 +5,18 @@ FROM node:6.10.3
 RUN wget --quiet https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64.deb
 RUN dpkg -i dumb-init_*.deb
 
-ENV DIR_PATH=/opt/navigatorserver
+RUN mkdir -p /opt/navigatorserver
+WORKDIR /opt/navigatorserver
+
+COPY . .
+
+RUN npm install grunt-cli
+ADD package.json /opt/navigatorserver/package.json
+RUN npm install
+
 ENV NODE_OPTS=''
 ENV MQTT='mqtt://mqtt:1883'
 ENV PORT=9002
-WORKDIR ${DIR_PATH}
-RUN mkdir -p ${DIR_PATH} \
- && npm install grunt-cli
-ADD source/package.json ${DIR_PATH}/package.json
-RUN npm install
-ADD source ${DIR_PATH}
 
 # Strangely not working. TODO follow up later: CMD [ "node", "$NODE_OPTS", "./node_modules/.bin/grunt", "server", "--port", "${PORT}" "--MQTT", "${MQTT}" "--stack" ]
 
