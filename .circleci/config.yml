@@ -77,4 +77,4 @@ workflows:
         filters:
           branches:
             only:
-            - master
+            - rutebanken_develop
