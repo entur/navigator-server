@@ -1,4 +1,4 @@
-Realtime server component for City Navigator
+Realtime server component for City Navigator [![CircleCI](https://circleci.com/gh/entur/navigator-server.svg?style=svg)](https://circleci.com/gh/entur/navigator-server)
 ============================================
 
 navigation-server connects to the MQTT broker/proxy and maintains a state of vehicle data (lat, long, next stop, etc.). 
