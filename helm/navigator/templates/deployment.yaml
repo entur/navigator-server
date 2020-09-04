@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: {{ .Chart.Name }}
-          image: {{ .Values.image.identifier }}
+          image: eu.gcr.io/entur-system-1287/navigator@sha256:f55b092cfcd657b52e6d8a35670522ee7e5fcbcb49fe0209e7c3d8f32fcddf96
           imagePullPolicy: {{ .Values.image.imagePullPolicy }}
           env:
             - name: TZ
